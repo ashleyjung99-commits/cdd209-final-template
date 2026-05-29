@@ -5,6 +5,9 @@ from sklearn.preprocessing import OneHotEncoder
 from sklearn.pipeline import Pipeline
 
 #TODO: Will need more imports!
+from sklearn.linear_model import LinearRegression, LogisticRegression
+from sklearn.metrics import mean_squared_error, mean_absolute_error, r2_score, accuracy_score, precision_score, recall_score, roc_auc_score
+from sklearn.model_selection import train_test_split
 #      LinearRegression
 #      Logistic Regression
 #      various sklearn metrics
@@ -53,14 +56,60 @@ class ModelTrainer:
         )
 
     def train_linear(self):
-        #TODO: Train and evaluate a linear model
-        #      Return metrics: mse, mae, r2
-        pass
+        X = self.df[self.features]
+        y = self.df[self.target]
+
+        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=57)
+
+        preprocessor = self.build_preprocessor(X_train)
+
+        self.model = Pipeline(
+            steps=[
+                ("preprocessor", preprocessor),
+                ("regressor", LinearRegression())
+            ]
+        )
+
+        self.model.fit(X_train, y_train)
+        preds = self.model.predict(X_test)
+
+        self.metrics = {
+            "mse": mean_squared_error(y_test, preds),
+            "mae": mean_absolute_error(y_test, preds),
+            "r2": r2_score(y_test, preds)
+        }
+
+        return self.model, self.metrics
 
     def train_logistic(self):
         #TODO: Train and evaluate a logistic model
         #      Return metrics: accuracy, precision, recall, roc_auc
-        pass
+        X = self.df[self.features]
+        y = self.df[self.target]
+
+        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=57)
+
+        preprocessor = self.build_preprocessor(X_train)
+
+        self.model = Pipeline(
+            steps=[
+                ("preprocessor", preprocessor),
+                ("classifier", LogisticRegression(max_iter=1000))
+            ]
+        )
+
+        self.model.fit(X_train, y_train)
+        preds = self.model.predict(X_test)
+        probs = self.model.predict_proba(X_test)[:, 1]
+
+        self.metrics = {
+            "accuracy": accuracy_score(y_test, preds),
+            "precision": precision_score(y_test, preds, zero_division=0),
+            "recall": recall_score(y_test, preds, zero_division=0),
+            "roc_auc": roc_auc_score(y_test, probs)
+        }
+
+        return self.model, self.metrics
 
     def evaluate(self):
         if self.metrics is None:
