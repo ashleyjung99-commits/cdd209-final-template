@@ -9,6 +9,7 @@ RUN THIS SCRIPT USING `PYTHONPATH=src pytest -v`
 """
 
 def test_clean_prescription_data_basic_cleaning():
+    # test case with messy input to check basic cleaning
     df = pd.DataFrame(
         {
             "patient_id": ["P001", "P001", "P001"],
@@ -30,6 +31,7 @@ def test_clean_prescription_data_basic_cleaning():
 
     result = clean_prescription_data(df)
 
+    # expected output after cleaning
     expected = pd.DataFrame(
         {
             "patient_id": ["P001", "P001", "P001"],
@@ -51,10 +53,12 @@ def test_clean_prescription_data_basic_cleaning():
         }
     )
 
+    # check result matches expected
     pdt.assert_frame_equal(result, expected, check_dtype=False)
 
 
 def test_clean_prescription_data_drops_bad_rows():
+    # test case has missing patient ID and bad date
     df = pd.DataFrame(
         {
             "patient_id": ["P001", "", "P002"],
@@ -83,6 +87,7 @@ def test_clean_prescription_data_drops_bad_rows():
 
 
 def test_clean_prescription_data_handles_out_of_range_values():
+    # test case has impossible values
     df = pd.DataFrame(
         {
             "patient_id": ["P001"],
@@ -104,6 +109,7 @@ def test_clean_prescription_data_handles_out_of_range_values():
 
     result = clean_prescription_data(df)
 
+    # out-of-range fields become NaN
     assert pd.isna(result.loc[0, "days_supply"])
     assert pd.isna(result.loc[0, "quantity_dispensed"])
     assert pd.isna(result.loc[0, "refill_number"])
@@ -111,11 +117,13 @@ def test_clean_prescription_data_handles_out_of_range_values():
     assert pd.isna(result.loc[0, "copay_amount"])
     assert pd.isna(result.loc[0, "adherence_flag"])
     assert pd.isna(result.loc[0, "proportion_days_covered"])
+    # valid fields still cleaned normally
     assert result.loc[0, "sex"] == "male"
     assert result.loc[0, "drug_name"] == "amlodipine"
 
 
 def test_clean_prescription_data_drops_rows_with_missing_critical_fields():
+    # test case has missing patient ID
     df = pd.DataFrame(
         {
             "patient_id": ["P001", None, "P002"],

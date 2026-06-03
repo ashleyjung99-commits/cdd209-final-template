@@ -13,8 +13,9 @@ from sklearn.model_selection import train_test_split
 #      various sklearn metrics
 #      train_test_split
 
-
+# create a ModelTrainer class that can train both linear and logistic regression models and return the relevant metrics for each
 class ModelTrainer:
+    # define the init method to take in a dataframe, target variable, and list of features
     def __init__(self, df: pd.DataFrame, target: str, features: list[str]):
         self.df = df
         self.target = target
@@ -55,6 +56,7 @@ class ModelTrainer:
             ]
         )
 
+    # train a linear regression model and return the model and metrics: mse, mae, r2
     def train_linear(self):
         X = self.df[self.features]
         y = self.df[self.target]
@@ -81,9 +83,10 @@ class ModelTrainer:
 
         return self.model, self.metrics
 
+    # train a logistic regression model and return the model and metrics: accuracy, precision, recall, roc_auc
     def train_logistic(self):
-        #TODO: Train and evaluate a logistic model
-        #      Return metrics: accuracy, precision, recall, roc_auc
+        # Train and evaluate a logistic model
+        # Return metrics: accuracy, precision, recall, roc_auc
         X = self.df[self.features]
         y = self.df[self.target]
 
@@ -111,6 +114,7 @@ class ModelTrainer:
 
         return self.model, self.metrics
 
+    # returns stored metrics if they exist, otherwise raises an error
     def evaluate(self):
         if self.metrics is None:
             raise ValueError("No metrics available yet. Train a model first.")

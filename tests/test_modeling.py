@@ -9,6 +9,7 @@ from pharma_adherence.modeling import ModelTrainer
 RUN THIS SCRIPT USING `PYTHONPATH=src pytest -v`
 """
 
+# sample data for linear regression tests
 def make_linear_df():
     return pd.DataFrame(
         {
@@ -20,7 +21,7 @@ def make_linear_df():
         }
     )
 
-
+# sample data for logistic regression tests
 def make_logistic_df():
     return pd.DataFrame(
         {
@@ -32,7 +33,7 @@ def make_logistic_df():
         }
     )
 
-
+# testing preproecessor construction to ensure numeric and categorical features are correctly identified and processed
 def test_build_preprocessor_detects_numeric_and_categorical():
     df = make_linear_df()
     trainer = ModelTrainer(df=df, target="copay_amount", features=["age", "days_supply", "sex", "pharmacy_name"])
@@ -46,7 +47,7 @@ def test_build_preprocessor_detects_numeric_and_categorical():
     assert set(preprocessor.transformers[0][2]) == {"age", "days_supply"}
     assert set(preprocessor.transformers[1][2]) == {"sex", "pharmacy_name"}
 
-
+# testing linear regression training to ensure it returns a fitted model and valid metrics
 def test_train_linear_returns_model_and_metrics():
     df = make_linear_df()
     trainer = ModelTrainer(
@@ -68,7 +69,7 @@ def test_train_linear_returns_model_and_metrics():
 
     assert metrics["mse"] >= 0
 
-
+# testing logistic regression training to ensure it returns a fitted model and valid metrics
 def test_train_logistic_returns_model_and_metrics():
     df = make_logistic_df()
     trainer = ModelTrainer(
@@ -89,7 +90,7 @@ def test_train_logistic_returns_model_and_metrics():
     assert 0.0 <= metrics["recall"] <= 1.0
     assert 0.0 <= metrics["roc_auc"] <= 1.0
 
-
+# testing that evaluate raises an error if called before training
 def test_evaluate_raises_before_training():
     df = make_linear_df()
     trainer = ModelTrainer(
@@ -101,7 +102,7 @@ def test_evaluate_raises_before_training():
     with pytest.raises(ValueError, match="No metrics available yet"):
         trainer.evaluate()
 
-
+# testing that evaluate returns the correct metrics after training
 def test_evaluate_returns_metrics_after_training():
     df = make_logistic_df()
     trainer = ModelTrainer(

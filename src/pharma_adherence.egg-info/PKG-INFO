@@ -1,0 +1,63 @@
+Metadata-Version: 2.4
+Name: pharma-adherence
+Version: 0.1.0
+Summary: Tools for cleaning, modeling, and visualizing pharmaceutical adherence data.
+Author-email: Jane Doe <jane.doe@ucsf.edu>
+License: MIT
+Requires-Python: >=3.10
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: matplotlib
+Requires-Dist: numpy==2.3.1
+Requires-Dist: pandas==2.3.1
+Requires-Dist: scikit-learn==1.8.0
+Requires-Dist: scipy==1.17.1
+Provides-Extra: dev
+Requires-Dist: pytest==8.4.1; extra == "dev"
+Requires-Dist: setuptools==72.1.0; extra == "dev"
+Requires-Dist: wheel==0.45.1; extra == "dev"
+Requires-Dist: pip==26.0.1; extra == "dev"
+Dynamic: license-file
+
+# project
+
+## features
+
+- data cleaning
+- linear regression
+- logistic regression
+- patient summary profile
+visualize patient adhrerence data
+
+## installation
+
+### clone the respository
+
+'''
+git clone[URL]
+'''
+
+### create a virtual environment
+
+'''
+conda create --name [myenv]
+conda activate [myenv]
+'''
+
+### install the package
+
+'''
+cd cdd209-final-template
+pip install .
+'''
+
+## usage
+
+write stuff here
+
+## testing
+
+after installation, in repo folder type:
+'''
+pytest
+'''

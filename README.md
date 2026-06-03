@@ -1,42 +1,53 @@
-# project
+# Medication Adherence Analysis and Prediction
 
-## features
+## Features
 
-- data cleaning
-- linear regression
-- logistic regression
-- patient summary profile
-visualize patient adhrerence data
+- Data cleaning
+- Linear regression
+- Logistic regression
+- Patient summary profile
+- Visualize patient adherence data
+- Unit tests
+- Machine learning models
 
-## installation
+## Installation
 
-### clone the respository
+### Clone The Repository
 
-'''
-git clone[URL]
-'''
+```
+git clone git@github.com:ashleyjung99-commits/cdd209-final-template.git
+```
 
-### create a virtual environment
+### Create A Virtual Environment
 
-'''
+```
 conda create --name [myenv]
 conda activate [myenv]
-'''
+```
 
 ### install the package
 
-'''
+```
 cd cdd209-final-template
 pip install .
-'''
+```
 
-## usage
+## Usage
+Hit the run button in main.py or in the terminal, type:
 
-write stuff here
+```
+python main.py
+```
 
-## testing
+You can create different graphs by changing the parameters in the main.py file. You can also look at the summary of a patient by changing the patient ID in the main.py file. This way you can explore the data and see how the different features affect the adherence of the patients.
 
-after installation, in repo folder type:
-'''
+## Testing
+
+After installation, in repo folder type:
+```
 pytest
-'''
+```
+Failing tests will be printed in the terminal. You can also run a specific test file by typing:
+```
+pytest tests/test_[file_name].py
+```
